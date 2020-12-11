@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>个人中心 - 个人选股系统 V5.87</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/js/jquery-1.12.4.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            // 发送ajax请求，获取个人中心数据
+            $.get("center_data.html",function (data) {
+                // ajax 成功回调函数
+                // 获取table标签
+                var $table = $(".table");
+                // 如果指定了返回数据的解析方式是json，那么data就是一个js对象
+                for(var i = 0; i < data.length; i++){
+                    // 根据下标获取每一个个人中心数据js对象
+                    var oCenterData = data[i];
+
+                    // 封装后的每一个tr标签
+                    var oTr = '<tr>' +
+                                '<td>'+ oCenterData.code +'</td>' +
+                                '<td>'+ oCenterData.short +'</td>' +
+                                '<td>'+ oCenterData.chg +'</td>' +
+                                '<td>'+ oCenterData.turnover +'</td>' +
+                                '<td>'+ oCenterData.price +'</td>' +
+                                '<td>'+ oCenterData.highs +'</td>' +
+                                '<td>'+ oCenterData.note_info +'</td>' +
+                                '<td><a type="button" class="btn btn-default btn-xs" href="/update/000007.html"> <span class="glyphicon glyphicon-star" aria-hidden="true"></span> 修改 </a></td>' +
+                                '<td><input type="button" value="删除" id="toDel" name="toDel" systemidvaule="000007"></td>' +
+                                '</tr>'
+                    // 给table标签追加每一行tr标签
+                    $table.append(oTr)
+
+                }
+
+            }, "json");
+            $("input[name='toDel']").each(function(){
+                var currentAdd = $(this);
+                currentAdd.click(function(){
+                    code = $(this).attr("systemIdVaule");
+                    alert("/del/" + code + ".html");
+                    $.get("/del/" + code + ".html", function(data, status){
+                        alert("数据: " + data + "\n状态: " + status);
+                    });
+                    window.location.reload()
+                });
+            });
+        });
+    </script>
+</head>
+
+<body>
+<div class="navbar navbar-inverse navbar-static-top ">
+        <div class="container">
+        <div class="navbar-header">
+                <button class="navbar-toggle" data-toggle="collapse" data-target="#mymenu">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                 </button>
+                 <a href="#" class="navbar-brand">选股系统</a>
+        </div>
+        <div class="collapse navbar-collapse" id="mymenu">
+                <ul class="nav navbar-nav">
+                        <li ><a href="/index.html">股票信息</a></li>
+                        <li class="active"><a href="">个人中心</a></li>
+                </ul>
+
+        </div>
+        </div>
+</div>
+<div class="container">
+
+    <div class="container-fluid">
+
+        <table class="table table-hover">
+            <tr>
+                    <th>股票代码</th>
+                    <th>股票简称</th>
+                    <th>涨跌幅</th>
+                    <th>换手率</th>
+                    <th>最新价(元)</th>
+                    <th>前期高点</th>
+                    <th style="color:red">备注信息</th>
+                    <th>修改备注</th>
+                    <th>del</th>
+            </tr>
+            {%content%}
+        </table>
+    </div>
+</div>
+</body>
+</html>            
