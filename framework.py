@@ -2,6 +2,7 @@
 import time
 import pymysql
 import json
+import logging
 
 # 路由列表
 route_list = [
@@ -184,7 +185,8 @@ def handle_request(env):
     else:
         #沒有動態資源數據，返回404信息
         result = not_found()
+        logging.error("沒有設置相關的路由信息:" + request_path)
         return result
-''
+
 if __name__ == '__main__':
     center_data()

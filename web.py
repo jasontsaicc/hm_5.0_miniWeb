@@ -3,6 +3,13 @@ import os
 import threading
 import sys
 import framework
+import logging
+
+# 在程序入口模塊，設置logging日誌的配置信息，只配置一次，整個程序都可以使用，好比單例
+logging.basicConfig(level=logging.DEBUG,
+                    format="%(asctime)s-%(filename)s[lineno:%(lineno)d]-%(levelname)s-%(message)s",
+                    filename="log.txt",
+                    filemode="a")
 
 class HttpWebSever(object):
     def __init__(self, port):
@@ -47,6 +54,8 @@ class HttpWebSever(object):
 
         if request_path.endswith(".html"):
             """動態資源請求"""
+            logging.info("動態資源請求的地址:" + request_path)
+
             #動態資源請求找web框架進行處理,需要把請求參數給web框架
             # 準備給web框架的參數信息,都要放到字典裡
             env = {
@@ -75,6 +84,7 @@ class HttpWebSever(object):
             new_socket.close
         else:
             """靜態資源請求"""
+            logging.info("靜態資源請求的地址:" + request_path)
             # 判斷是否是動態資源請求，以後把後綴是.html的請求任務是動態資源請求
 
 
@@ -155,29 +165,25 @@ class HttpWebSever(object):
 
 
 def main():
-
-    # params = sys.argv
-    
-    # if len(params) != 2:
-
-    #     print("輸入的端口好格式如下ＸＸＸＸ 必須數字")
-    #     return
-
-    # if not params[1].isdigit():
-
-    #     print("輸入的端口好格式如下ＸＸＸＸ 必須數字")
-    #     return
-    
-    # port = int(params[1])
-
-
-    webserver = HttpWebSever(8002)
+    # 獲取終端命令行參數
+    params = sys.argv
+    if len(params) != 2:
+        print("輸入的端口好格式如下ＸＸＸＸ 必須數字")
+        logging.warning("在終端啟動程序參數的個數不等於二")
+        return
+    # 判斷第二個參數是否由數字組成的字符串
+    if not params[1].isdigit():
+        print("輸入的端口好格式如下ＸＸＸＸ 必須數字")
+        logging.warning("在終端啟動程序參數的類型不是數字字符串！")
+        return
+    # 代碼執行到此，說明命令行參數的個數一定2個並且第二個參數是由數字組成的字符串
+    port = int(params[1])
+    # 創建web服務器
+    webserver = HttpWebSever(port)
+    # 啟動服務器
     webserver.start()
 
-
-
-
-
+# 判斷是否是主模塊的代碼
 if __name__ == '__main__':
     main()
 
