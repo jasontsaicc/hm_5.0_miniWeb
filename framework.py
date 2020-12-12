@@ -139,9 +139,9 @@ def center():
 
     # 2.查詢數據庫,模板裡面的模板變量({%content%}) ,替換成以後從數據庫裡面查詢的數據
     # web處理後的數據
-    data = time.ctime()
+    # data = time.ctime()
 
-    response_body = file_data.replace("{%content%}", data)
+    response_body = file_data.replace("{%content%}", "")
     # 這裡返回的是元組
     return status, response_header, response_body
 

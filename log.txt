@@ -1,0 +1,5 @@
+2020-12-12 19:01:29,792-hm_01_logging日志.py[lineno:17]-DEBUG-debug等級的日誌
+2020-12-12 19:01:29,792-hm_01_logging日志.py[lineno:18]-INFO-info等級的日誌
+2020-12-12 19:01:29,792-hm_01_logging日志.py[lineno:19]-WARNING-warning等級的日誌
+2020-12-12 19:01:29,792-hm_01_logging日志.py[lineno:20]-ERROR-error等級的日誌
+2020-12-12 19:01:29,792-hm_01_logging日志.py[lineno:21]-CRITICAL-critical等級的日誌
